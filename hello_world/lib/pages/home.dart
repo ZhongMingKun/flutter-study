@@ -1,34 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
-import 'package:flutter_swiper/flutter_swiper.dart';
+// class NavigatorItem {
+//   String path;
+//   String title;
+// }
 
-void main() => runApp(new MyApp());
-
-class SwiperSetting {
-
-}
-
-const imgs = [
-  'https://bbs-fd.zol-img.com.cn/t_s500x500/g4/M01/07/0D/Cg-4WlGUkVeIe17eAAoetZu8N6MAAIelgMKGekACh7N505.jpg',
-  'https://bbs-fd.zol-img.com.cn/t_s500x500/g4/M01/07/0D/Cg-4WVGUkTqIWYRqABBjrc1wPQEAAIelgFuNAMAEGPF944.jpg',
-  'http://via.placeholder.com/1080x1920'
+const navigators = [
+  {'path': '/use-app-img', 'title': '图片轮播v1'},
+  {'path': '/use-storage-img', 'title': '图片轮播v2'},
 ];
 
-class MyApp extends StatelessWidget {
+
+class AppHome extends StatelessWidget {
+  Widget _buildNavigators() {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int i) {
+        return _buildRow(context, navigators[i]);
+      },
+      itemCount: navigators.length,
+    );
+  }
+
+  Widget _buildRow(BuildContext context, info) {
+    return InkWell(
+      onTap: () => Navigator.pushNamed( context, info['path']),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 20.0),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Theme.of(context).dividerColor)
+          )
+        ),
+        child: Text(info['title']),
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Welcome to Flutter',
-      home: new Scaffold(
-        appBar: new AppBar(
-          centerTitle: true,
-          title: new Text('广告轮播')
-        ),
-        body: new Center(
-          child: new Text('Hello World'),
-        ),
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    return new Scaffold(
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text('广告轮播')
       ),
+      body: _buildNavigators(),
     );
   }
 }
