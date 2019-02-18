@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 // import 'package:flutter_swiper/flutter_swiper.dart';
 
 // class SwiperSetting {
@@ -13,16 +14,36 @@ import 'package:flutter/material.dart';
 //   'http://via.placeholder.com/1080x1920'
 // ];
 
-class UseStorageImgPage extends StatelessWidget {
+class UseStorageImgPage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+class _MyHomePageState extends State<UseStorageImgPage> {
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+  setState(() {
+      _image = image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        title: new Text('静态图片2')
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image Picker Example'),
       ),
-      body: new Center(
-        child: new Text('dudulu222'),
+      body: Center(
+        child: _image == null
+            ? Text('No image selected.')
+            : Image.file(_image),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: getImage,
+        tooltip: 'Pick Image',
+        child: Icon(Icons.add_a_photo),
       ),
     );
   }
