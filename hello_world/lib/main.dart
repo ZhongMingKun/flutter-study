@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'pages/home.dart';
 import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
-// import 'package:flutter/services.dart';
-// import 'dart:io';
-// import 'package:flutter_swiper/flutter_swiper.dart';
 
 void main() => runApp(new MyApp());
 
