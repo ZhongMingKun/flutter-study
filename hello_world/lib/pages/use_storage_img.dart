@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'asset_view.dart';
+import '../components/asset_view.dart';
 
 class UseStorageImgPage extends StatefulWidget {
   @override
@@ -29,9 +29,6 @@ class _PageState extends State<UseStorageImgPage> {
   }
 
   Future<void> loadAssets() async {
-    setState(() {
-      images = List<Asset>();
-    });
 
     List<Asset> resultList;
     String error;
@@ -50,30 +47,32 @@ class _PageState extends State<UseStorageImgPage> {
     if (!mounted) return;
 
     setState(() {
-      images = resultList;
+      if (resultList.length != 0) {
+        images = resultList;
+      }
       if (error == null) _error = 'No Error Dectected';
+      print(_error);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Center(child: Text('Error: $_error')),
-            RaisedButton(
-              child: Text("Pick images"),
-              onPressed: loadAssets,
-            ),
-            Expanded(
-              child: buildGridView(),
-            )
-          ],
-        ),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: const Text('选择图片轮播'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Center(
+              child: RaisedButton(
+            child: Text("选择图片"),
+            onPressed: loadAssets,
+          )),
+          Expanded(
+            child: buildGridView(),
+          )
+        ],
       ),
     );
   }
