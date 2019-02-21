@@ -22,8 +22,9 @@ class AssetState extends State<AssetView> {
     _loadImage();
   }
 
-   void _loadImage() async {
-    await this._asset.requestThumbnail(300, 300, quality: 50);
+  void _loadImage() async {
+    print(this._asset);
+    await this._asset.requestThumbnail(1080, 1920, quality: 50);
 
     if (this.mounted) {
       setState(() {});
@@ -35,7 +36,7 @@ class AssetState extends State<AssetView> {
     if (null != this._asset.thumbData) {
       return Image.memory(
         this._asset.thumbData.buffer.asUint8List(),
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         gaplessPlayback: true,
       );
     }

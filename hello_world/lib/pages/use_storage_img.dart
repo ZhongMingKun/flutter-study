@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import '../components/asset_view.dart';
+import '../components/image_swiper.dart';
 
 class UseStorageImgPage extends StatefulWidget {
   @override
@@ -28,6 +29,16 @@ class _PageState extends State<UseStorageImgPage> {
     );
   }
 
+  Widget buildSwiper() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          return ImageSwiper(images);
+        },
+      ),
+    );
+  }
+
   Future<void> loadAssets() async {
 
     List<Asset> resultList;
@@ -49,6 +60,7 @@ class _PageState extends State<UseStorageImgPage> {
     setState(() {
       if (resultList.length != 0) {
         images = resultList;
+        print(images);
       }
       if (error == null) _error = 'No Error Dectected';
       print(_error);
@@ -62,13 +74,20 @@ class _PageState extends State<UseStorageImgPage> {
         title: const Text('选择图片轮播'),
         centerTitle: true,
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: FlatButton(
+          child: Text('开始轮播'),
+          onPressed: buildSwiper,
+        )
+      ),
       body: Column(
         children: <Widget>[
           Center(
               child: RaisedButton(
-            child: Text("选择图片"),
-            onPressed: loadAssets,
-          )),
+                child: Text("选择图片"),
+                onPressed: loadAssets,
+              )
+          ),
           Expanded(
             child: buildGridView(),
           )

@@ -1,20 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:root_access/root_access.dart';
+import 'dart:async';
+
 import 'pages/home.dart';
 import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _rootAccess = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initRootRequest();
+  }
+
+  Future<void> initRootRequest() async {
+    bool rootAccess = await RootAccess.rootAccess;
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _rootAccess = rootAccess;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('Root access granted: $_rootAccess\n');
     return new MaterialApp(
       title: 'Welcome to Flutter',
       routes: <String, WidgetBuilder>{
-         '/': (BuildContext context) => AppHome(),
-         '/use-app-img': (BuildContext context) => UseAppImgPage(),
-         '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
-      }
-    );
+        '/': (BuildContext context) => AppHome(),
+        '/use-app-img': (BuildContext context) => UseAppImgPage(),
+        '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
+      });
   }
 }
