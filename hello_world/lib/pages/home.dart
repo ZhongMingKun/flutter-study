@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 //   String path;
 //   String title;
 // }
-
 const navigators = [
   {'path': '/use-app-img', 'title': '图片轮播v1'},
   {'path': '/use-storage-img', 'title': '图片轮播v2'},
+  {'path': '/video-player-demo', 'title': '视频播放'},
 ];
 
 
