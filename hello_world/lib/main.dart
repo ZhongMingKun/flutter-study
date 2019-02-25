@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:root_access/root_access.dart';
 import 'dart:async';
-
+import 'common/api.dart';
 import 'pages/home.dart';
 import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Api().test({'tag': 1});
     // print('Root access granted: $_rootAccess\n');
     return new MaterialApp(
       title: 'Welcome to Flutter',
