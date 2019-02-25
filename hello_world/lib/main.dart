@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:root_access/root_access.dart';
 import 'dart:async';
 
+import 'pages/login.dart';
 import 'pages/home.dart';
 import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
@@ -42,7 +43,8 @@ class _MyAppState extends State<MyApp> {
     return new MaterialApp(
       title: 'Welcome to Flutter',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => AppHome(),
+        '/': (BuildContext context) => LoginPage(),
+        '/home': (BuildContext context) => AppHome(),
         '/use-app-img': (BuildContext context) => UseAppImgPage(),
         '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
         '/video-player-demo': (BuildContext context) => VideoDemoPage(),
