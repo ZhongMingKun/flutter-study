@@ -14,7 +14,7 @@ class _MyHomePageState extends State<UseAppImgPage> {
       body: new Swiper(
         autoplay: true,
         itemBuilder: (BuildContext context,int index){
-          return new Image.asset('images/${index+1}.jpg',fit: BoxFit.fill,);
+          return new Image.asset('assets/images/${index+1}.jpg',fit: BoxFit.fill,);
         },
         itemCount: itemCount,
       ),

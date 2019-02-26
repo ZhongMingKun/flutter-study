@@ -13,7 +13,7 @@ class _VideoDemoPageState extends State<VideoDemoPage> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-        'video/1.mp4')
+        'assets/video/1.mp4')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {

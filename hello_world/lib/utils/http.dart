@@ -1,15 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 class HttpUtil {
   static final HttpUtil _instance = HttpUtil._internal();
   static Dio _client;
-  
+
   static String csrfToken = '';
   static final debug = true;
   /// 服务器路径
   static final host = 'http://www.dtworkroom.com/doris/1';
-  static final baseUrl = host + '/2.0.0/';
+  static final baseUrl = host + '/2.0.0';
   static final options = new BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: 5000,
@@ -18,7 +17,7 @@ class HttpUtil {
   );
 
   factory HttpUtil() => _instance;
-  
+
   HttpUtil._internal() {
     if (null == _client) {
       _client = new Dio(options);
@@ -60,7 +59,7 @@ class HttpUtil {
       },
       onResponse:(Response response) {
         // 在返回响应数据之前做一些预处理
-        print(response);
+        print(response.data is Map);
         // print(json.decode(response.data));
         return response; // continue
       },

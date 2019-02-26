@@ -29,7 +29,7 @@ class _PageState extends State<UseStorageImgPage> {
     );
   }
 
-  Widget buildSwiper() {
+  buildSwiper() {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) {
