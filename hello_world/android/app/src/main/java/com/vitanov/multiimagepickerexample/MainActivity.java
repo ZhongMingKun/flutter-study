@@ -1,4 +1,4 @@
-package com.vitanov.multiimagepickerexample;
+package com.example.helloworld;
 
 import android.content.Intent;
 import android.media.MediaScannerConnection;

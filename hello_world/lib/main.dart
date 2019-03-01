@@ -8,6 +8,7 @@ import 'pages/home.dart';
 import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
 import 'pages/video_player_demo.dart';
+import 'pages/path_provider.dart';
 
 void main() => runApp(new MyApp());
 
@@ -45,11 +46,13 @@ class _MyAppState extends State<MyApp> {
     return new MaterialApp(
       title: 'Welcome to Flutter',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => LoginPage(),
-        '/home': (BuildContext context) => AppHome(),
+        // '/': (BuildContext context) => LoginPage(),
+        // '/home': (BuildContext context) => AppHome(),
+        '/': (BuildContext context) => AppHome(),
         '/use-app-img': (BuildContext context) => UseAppImgPage(),
         '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
         '/video-player-demo': (BuildContext context) => VideoDemoPage(),
+        '/path-provider-demo': (BuildContext context) => PathProviderDemo(),
       });
   }
 }
