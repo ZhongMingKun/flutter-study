@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 // class NavigatorItem {
 //   String path;
 //   String title;
@@ -8,11 +9,50 @@ const navigators = [
   {'path': '/use-app-img', 'title': '图片轮播v1'},
   {'path': '/use-storage-img', 'title': '图片轮播v2'},
   {'path': '/video-player-demo', 'title': '视频播放'},
-  {'path': '/path-provider-demo', 'title': '文件列表'},
+  {'path': '/download-demo', 'title': '下载demo'},
 ];
 
 
-class AppHome extends StatelessWidget {
+class AppHome extends StatefulWidget {
+  final TargetPlatform platform;
+  AppHome({Key key, this.platform}) : super(key: key);
+
+  @override
+  _AppHomeState createState() => new _AppHomeState();
+
+}
+
+class _AppHomeState extends State<AppHome>{
+  bool _permissisonReady;
+  bool _isLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLoading = true;
+    _permissisonReady = false;
+    _prepare();
+  }
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    return new Scaffold(
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text('广告轮播')
+      ),
+      body: Builder(
+        builder: (context) => _isLoading
+          ? new Center(
+              child: new CircularProgressIndicator(),
+            )
+          : _permissisonReady
+              ? _buildNavigators()
+              : _buildPermission()
+      ),
+    );
+  }
+
   Widget _buildNavigators() {
     return ListView.builder(
       itemBuilder: (BuildContext context, int i) {
@@ -37,15 +77,71 @@ class AppHome extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    return new Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        title: new Text('广告轮播')
+  Widget _buildPermission() {
+    return new Container(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                'Please grant accessing storage permission to continue -_-',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.blueGrey, fontSize: 18.0),
+              ),
+            ),
+            SizedBox(
+              height: 32.0,
+            ),
+            FlatButton(
+                onPressed: () {
+                  _checkPermission().then((hasGranted) {
+                    setState(() {
+                      _permissisonReady = hasGranted;
+                    });
+                  });
+                },
+                child: Text(
+                  'Retry',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0),
+                ))
+          ],
+        ),
       ),
-      body: _buildNavigators(),
     );
+  }
+
+  Future<Null> _prepare() async {
+    _permissisonReady = await _checkPermission();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<bool> _checkPermission() async {
+    if (widget.platform == TargetPlatform.android) {
+      PermissionStatus permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
+      if (permission != PermissionStatus.granted) {
+        Map<PermissionGroup, PermissionStatus> permissions =
+            await PermissionHandler()
+                .requestPermissions([PermissionGroup.storage]);
+        if (permissions[PermissionGroup.storage] == PermissionStatus.granted) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+    return false;
   }
 }
