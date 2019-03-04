@@ -8,7 +8,7 @@ class VideoDemoPage extends StatefulWidget {
 
 class _VideoDemoPageState extends State<VideoDemoPage> {
   VideoPlayerController _controller;
-
+  Duration _position;
   @override
   void initState() {
     super.initState();
@@ -18,6 +18,7 @@ class _VideoDemoPageState extends State<VideoDemoPage> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
           _controller.play();
+          _position =_controller.value.position;
         });
       });
   }
