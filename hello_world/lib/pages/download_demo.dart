@@ -121,6 +121,7 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
   }
 
   Widget _buildFilesList() {
+    int index = -1;
     return new Container(
       child: new ListView(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -178,7 +179,7 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
                                       const EdgeInsets.only(
                                           left: 8.0),
                                   child: _buildActionForTask(
-                                      item.task),
+                                      item.task, ++index),
                                 ),
                               ],
                             ),
@@ -210,11 +211,11 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
     );
   }
 
-  Widget _buildActionForTask(_TaskInfo task) {
+  Widget _buildActionForTask(_TaskInfo task, int index) {
     if (task.status == DownloadTaskStatus.undefined) {
       return new RawMaterialButton(
         onPressed: () {
-          _requestDownload(task);
+          _requestDownload(task, index);
         },
         child: new Icon(Icons.file_download),
         shape: new CircleBorder(),
@@ -292,15 +293,18 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
     }
   }
 
-  void _requestDownload(_TaskInfo task) async {
+  void _requestDownload(_TaskInfo task, int index) async {
+    print('---------');
+    print(index);
     task.taskId = await FlutterDownloader.enqueue(
         url: task.link,
         headers: {
           "auth": "test_for_sql_encoding"
         },
+        fileName: index.toString(),
         savedDir: _localPath,
         showNotification: true,
-        openFileFromNotification: true);
+        openFileFromNotification: false);
   }
 
   void _cancelDownload(_TaskInfo task) async {
@@ -394,13 +398,16 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
         }
       }
     });
-
+    print(_tasks);
     _localPath = (await _findLocalPath()) + '/Download';
 
     final savedDir = Directory(_localPath);
     bool hasExisted = await savedDir.exists();
     if (!hasExisted) {
       savedDir.create();
+    } else {
+      final files = savedDir.listSync(recursive: true, followLinks: false);
+      print(files);
     }
 
     setState(() {
