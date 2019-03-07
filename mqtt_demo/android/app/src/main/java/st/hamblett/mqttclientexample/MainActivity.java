@@ -1,4 +1,4 @@
-package com.example.mqtt_demo;
+package st.hamblett.mqttclientexample;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
