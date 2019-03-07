@@ -10,6 +10,7 @@ const navigators = [
   {'path': '/use-storage-img', 'title': '图片轮播v2'},
   {'path': '/video-player-demo', 'title': '视频播放'},
   {'path': '/download-demo', 'title': '下载demo'},
+  {'path': '/shower-demo', 'title': '混播demo'},
 ];
 
 
@@ -88,7 +89,7 @@ class _AppHomeState extends State<AppHome>{
               padding:
                   const EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
-                'Please grant accessing storage permission to continue -_-',
+                '需要读写文件的权限',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.blueGrey, fontSize: 18.0),
@@ -106,7 +107,7 @@ class _AppHomeState extends State<AppHome>{
                   });
                 },
                 child: Text(
-                  'Retry',
+                  '重新获取',
                   style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,

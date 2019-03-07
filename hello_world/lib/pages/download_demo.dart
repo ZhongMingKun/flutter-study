@@ -301,7 +301,6 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
         headers: {
           "auth": "test_for_sql_encoding"
         },
-        fileName: index.toString(),
         savedDir: _localPath,
         showNotification: true,
         openFileFromNotification: false);
@@ -399,7 +398,7 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
       }
     });
     print(_tasks);
-    _localPath = (await _findLocalPath()) + '/Download';
+    _localPath = (await _findLocalPath()) + '/material';
 
     final savedDir = Directory(_localPath);
     bool hasExisted = await savedDir.exists();

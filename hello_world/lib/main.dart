@@ -7,6 +7,7 @@ import 'pages/use_app_img.dart';
 import 'pages/use_storage_img.dart';
 import 'pages/video_player_demo.dart';
 import 'pages/download_demo.dart';
+import 'components/shower.dart';
 
 void main() => runApp(new MyApp());
 
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
         '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
         '/video-player-demo': (BuildContext context) => VideoDemoPage(),
         '/download-demo': (BuildContext context) => DownloadDemo(platform: platform),
+        '/shower-demo': (BuildContext context) => Shower(),
       });
   }
 
