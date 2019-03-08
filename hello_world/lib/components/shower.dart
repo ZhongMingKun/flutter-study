@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:async/async.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -48,7 +47,7 @@ class ShowerState extends State<Shower> {
   /// 延时器，记录是否播放完毕
   Timer _delay;
   VideoPlayerController _controller;
-
+  Widget _child;
   @override
   void initState() {
     super.initState();
@@ -61,14 +60,13 @@ class ShowerState extends State<Shower> {
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    // _controller?.dispose();
     _delay.cancel();
     print('dudulu');
   }
 
   Widget _buildShower(materialInfo) {
     print('重新渲染');
-    Widget _child;
     if (materialInfo == null) {
       print('跳过');
       return Scaffold(
@@ -113,14 +111,20 @@ class ShowerState extends State<Shower> {
   /// 延时结束回调动作
   void _onEnd(Timer timer) {
     _delay.cancel();
+    _changeCurrShowMateriel();
     print('$_index----------------');
     print(_currShowMateriel);
     print('$_index----------------');
     // if (_currShowMateriel['type'] == 'video') {
-      // print(_controller.dispose);
+    //   _controller.pause();
+    //   // print(_controller.dispose);
       // _controller?.dispose();
     // }
-    _changeCurrShowMateriel();
+    // if (_currShowMateriel['type'] == 'image') {
+    //   _controller.pause();
+    //   // print(_controller.dispose);
+    //   _controller?.dispose();
+    // }
     // if (_currShowMateriel['type'] == 'image') {
     //   _setDelay(_currShowMateriel['delay'], _onEnd);
     // }
