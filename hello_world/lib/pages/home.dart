@@ -11,6 +11,7 @@ const navigators = [
   {'path': '/video-player-demo', 'title': '视频播放'},
   {'path': '/download-demo', 'title': '下载demo'},
   {'path': '/shower-demo', 'title': '混播demo'},
+  {'path': '/screenpage-demo', 'title': '布局demo'},
 ];
 
 

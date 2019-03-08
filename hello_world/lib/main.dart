@@ -8,6 +8,7 @@ import 'pages/use_storage_img.dart';
 import 'pages/video_player_demo.dart';
 import 'pages/download_demo.dart';
 import 'components/shower.dart';
+import 'components/screen_page.dart';
 
 void main() => runApp(new MyApp());
 
@@ -44,6 +45,99 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final TargetPlatform platform = Theme.of(context).platform;
+    final dirPath = '/material';
+    final List<Map<String, dynamic>> _showList = [
+      {
+        'name':'The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
+        'type': 'image',
+        'delay': 5000
+      },
+      {
+        'name': 'BigBuckBunny.mp4',
+        'type': 'video'
+      },
+      {
+        'name': 'Canyonlands_National_Park%E2%80%A6Needles_area_%286294480744%29.jpg',
+        'type': 'image',
+        'delay': 5000
+      },
+      {
+        'name': 'ElephantsDream.mp4',
+        'type': 'video'
+      },
+      {
+        'name': 'Sand_Dunes_in_Death_Valley_National_Park.jpg',
+        'type': 'image',
+        'delay': 5000
+      }
+    ];
+    final screenSetting = {
+      'id': '123',
+      // 'mode': 'fullScreen',
+      'mode': 'twoScreen',
+      // 'mode': 'threeScreen50',
+      // 'mode': 'threeScreen66',
+      // 'mode': 'fourScreenVertial',
+      // 'mode': 'fourScreenSquare',
+      'blocks': [
+        {
+          'blockNo': 1,
+          'files': [
+            {
+              'name':'The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
+              'type': 'image',
+              'delay': 5000
+            },
+            {
+              'name': 'BigBuckBunny.mp4',
+              'type': 'video'
+            },
+            {
+              'name': 'Canyonlands_National_Park%E2%80%A6Needles_area_%286294480744%29.jpg',
+              'type': 'image',
+              'delay': 5000
+            },
+            {
+              'name': 'ElephantsDream.mp4',
+              'type': 'video'
+            },
+            {
+              'name': 'Sand_Dunes_in_Death_Valley_National_Park.jpg',
+              'type': 'image',
+              'delay': 5000
+            }
+          ]
+        },
+        {
+          'blockNo': 2,
+          'files': [
+            {
+              'name': 'BigBuckBunny.mp4',
+              'type': 'video'
+            },
+            {
+              'name': 'ElephantsDream.mp4',
+              'type': 'video'
+            },
+            {
+              'name': 'Canyonlands_National_Park%E2%80%A6Needles_area_%286294480744%29.jpg',
+              'type': 'image',
+              'delay': 5000
+            },
+            {
+              'name': 'Sand_Dunes_in_Death_Valley_National_Park.jpg',
+              'type': 'image',
+              'delay': 5000
+            },
+            {
+              'name':'The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
+              'type': 'image',
+              'delay': 5000
+            },
+          ]
+        }
+      ],
+    };
     // print(widget.platform);
     Api().test({'tag': 1});
     // print('Root access granted: $_rootAccess\n');
@@ -57,7 +151,8 @@ class _MyAppState extends State<MyApp> {
         '/use-storage-img': (BuildContext context) => UseStorageImgPage(),
         '/video-player-demo': (BuildContext context) => VideoDemoPage(),
         '/download-demo': (BuildContext context) => DownloadDemo(platform: platform),
-        '/shower-demo': (BuildContext context) => Shower(),
+        '/shower-demo': (BuildContext context) => Shower(showList: _showList, dirPath: dirPath),
+        '/screenpage-demo': (BuildContext context) => ScreenPage(screenSetting: screenSetting),
       });
   }
 

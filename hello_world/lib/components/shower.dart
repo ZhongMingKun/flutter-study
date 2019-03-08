@@ -6,39 +6,40 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
 class Shower extends StatefulWidget {
-  // final imei;
-  // Shower({Key key, this.imei}) : super(key: key);
+  final String dirPath;
+  final List showList;
+  Shower({Key key, this.dirPath, this.showList}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShowerState();
 }
 
 class ShowerState extends State<Shower> {
-  List<Map<String, dynamic>> _showList = [
-    {
-      'name':'The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
-      'type': 'image',
-      'delay': 5000
-    },
-    {
-      'name': 'BigBuckBunny.mp4',
-      'type': 'video'
-    },
-    {
-      'name': 'Canyonlands_National_Park%E2%80%A6Needles_area_%286294480744%29.jpg',
-      'type': 'image',
-      'delay': 5000
-    },
-    {
-      'name': 'ElephantsDream.mp4',
-      'type': 'video'
-    },
-    {
-      'name': 'Sand_Dunes_in_Death_Valley_National_Park.jpg',
-      'type': 'image',
-      'delay': 5000
-    }
-  ];
+  List _showList; /// = [
+  ///   {
+  ///     'name':'The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
+  ///     'type': 'image',
+  ///     'delay': 5000
+  ///   },
+  ///   {
+  ///     'name': 'BigBuckBunny.mp4',
+  ///     'type': 'video'
+  ///   },
+  ///   {
+  ///     'name': 'Canyonlands_National_Park%E2%80%A6Needles_area_%286294480744%29.jpg',
+  ///     'type': 'image',
+  ///     'delay': 5000
+  ///   },
+  ///   {
+  ///     'name': 'ElephantsDream.mp4',
+  ///     'type': 'video'
+  ///   },
+  ///   {
+  ///     'name': 'Sand_Dunes_in_Death_Valley_National_Park.jpg',
+  ///     'type': 'image',
+  ///     'delay': 5000
+  ///   }
+  /// ];
   String _dirPath;
   /// 轮播下标
   int _index = 0;
@@ -46,6 +47,7 @@ class ShowerState extends State<Shower> {
   Map _currShowMateriel;
   /// 延时器，记录是否播放完毕
   Timer _delay;
+  Timer _switchDelay;
   VideoPlayerController _controller;
   Widget _child;
   @override
@@ -60,20 +62,16 @@ class ShowerState extends State<Shower> {
   @override
   void dispose() {
     super.dispose();
-    // _controller?.dispose();
     _delay.cancel();
-    print('dudulu');
   }
 
   Widget _buildShower(materialInfo) {
-    print('重新渲染');
     if (materialInfo == null) {
-      print('跳过');
-      return Scaffold(
-        body: Container(
-          child: _child,
-        ),
-    );
+      print('=============null==============');
+      _child = null;
+      return Container(
+        child: _child,
+      );
     }
     File newFile = _getMaterielFile(materialInfo['name']);
     print(newFile);
@@ -95,10 +93,8 @@ class ShowerState extends State<Shower> {
         });
       _child = VideoPlayer(_controller);
     }
-    return Scaffold(
-      body: Container(
-        child: _child,
-      ),
+    return Container(
+      child: _child
     );
   }
   /// 设置延时
@@ -111,26 +107,15 @@ class ShowerState extends State<Shower> {
   /// 延时结束回调动作
   void _onEnd(Timer timer) {
     _delay.cancel();
-    _changeCurrShowMateriel();
-    print('$_index----------------');
-    print(_currShowMateriel);
-    print('$_index----------------');
-    // if (_currShowMateriel['type'] == 'video') {
-    //   _controller.pause();
-    //   // print(_controller.dispose);
-      // _controller?.dispose();
-    // }
-    // if (_currShowMateriel['type'] == 'image') {
-    //   _controller.pause();
-    //   // print(_controller.dispose);
-    //   _controller?.dispose();
-    // }
-    // if (_currShowMateriel['type'] == 'image') {
-    //   _setDelay(_currShowMateriel['delay'], _onEnd);
-    // }
+    setState(() {
+      _currShowMateriel = null;
+    });
+    _switchDelay = Timer.periodic(Duration(milliseconds: 10), _changeCurrShowMateriel);
+    // _changeCurrShowMateriel();
   }
   /// 修改当前物料
-  void _changeCurrShowMateriel() {
+  void _changeCurrShowMateriel(Timer timer) {
+    _switchDelay.cancel();
     setState(() {
       _index++;
       if (_index >= _showList.length) {
@@ -147,7 +132,10 @@ class ShowerState extends State<Shower> {
 
   /// 初始化
   Future<Null> _prepare() async {
-    _dirPath = (await getApplicationDocumentsDirectory()).path + '/material';
+    _showList = widget.showList;
+    // _dirPath = (await getApplicationDocumentsDirectory()).path + '/material';
+    _dirPath = (await getApplicationDocumentsDirectory()).path + widget.dirPath;
+    print(_dirPath);
     setState(() {
       _currShowMateriel = _showList[_index];
       final dir = Directory(_dirPath);

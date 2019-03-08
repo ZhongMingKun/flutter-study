@@ -294,7 +294,6 @@ class _DownloadDemoState extends State<DownloadDemo> with WidgetsBindingObserver
   }
 
   void _requestDownload(_TaskInfo task, int index) async {
-    print('---------');
     print(index);
     task.taskId = await FlutterDownloader.enqueue(
         url: task.link,
